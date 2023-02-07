@@ -1,6 +1,6 @@
 const bcrypt=require('bcrypt')
 const jwt = require('jsonwebtoken');
-const signUpValidate = require('../middleware/validation');
+const {signUpValidate, loginValidate} = require('../middleware/validation');
 const { Users } = require('../modal/userModal');
 
 module.exports = {
@@ -39,6 +39,46 @@ module.exports = {
         } catch (err) {
             res.status(400).json({status:"failed",error:err})
         }
-    }
+    },
+
+
+
+    LoginUser:async(req,res)=>{
+        try{
+
+            const {loginerror}=loginValidate(req.body);
+            if(loginerror){
+                res.status(400).json({error:error.details[0].message})
+            }else{
+                const userDetails=await Users.findOne({email:req.body.email})
+                
+                if(userDetails){
+                    const validatePassword=await bcrypt.compare(req.body.password,userDetails.password);
+
+                    if(validatePassword){
+                        const token=jwt.sign({
+                            name:userDetails.userName,
+                            email:userDetails.email,
+                            id:userDetails._id
+                        },
+                        'secret123',
+                        {
+                            expiresIn: "7d"
+                        }
+                        )
+
+                        res.status(200).json({ status: 'Login Sucess', user: token })
+                    }else{
+                        res.status(400).json({status:"Login Failed",error:"user password not matched"})
+                    }
+                }else{
+                    res.status(400).json({status:"Login Failed",error:"user not exists"})
+                }
+            }
+
+        }catch(err){
+            res.status(400).json({status:"failed",error:err})
+        }
+    }   
 
 }

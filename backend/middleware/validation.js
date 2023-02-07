@@ -11,4 +11,12 @@ const signUpValidate=(data)=>{
 }
 
 
-module.exports=signUpValidate
+const loginValidate=(data)=>{
+    const Schema=Joi.object({
+        email: Joi.string().min(6).required().email(),
+		password: Joi.string().min(6).required(),
+    });
+    return Schema.validate(data);
+}
+
+module.exports={signUpValidate,loginValidate}
