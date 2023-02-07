@@ -46,8 +46,10 @@ module.exports = {
     LoginUser:async(req,res)=>{
         try{
 
-            const {loginerror}=loginValidate(req.body);
-            if(loginerror){
+            const {error}=loginValidate(req.body);
+            
+            if(error){
+              
                 res.status(400).json({error:error.details[0].message})
             }else{
                 const userDetails=await Users.findOne({email:req.body.email})
@@ -66,7 +68,7 @@ module.exports = {
                             expiresIn: "7d"
                         }
                         )
-
+                        console.log("Login Sucess")
                         res.status(200).json({ status: 'Login Sucess', user: token })
                     }else{
                         res.status(400).json({status:"Login Failed",error:"user password not matched"})
