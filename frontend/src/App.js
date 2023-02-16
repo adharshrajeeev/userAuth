@@ -1,10 +1,18 @@
+import{BrowserRouter as Router,Routes,Route} from 'react-router-dom'
+import UserHome from './Routes/UserHome';
+
+
 
 
 function App() {
   return (
-    <div className="App">
-     <h1>helloo</h1>
-    </div>
+    
+     <Router>
+      <Routes>
+        <Route path='/' element={ <UserHome/>} />
+      </Routes>
+     </Router>
+   
   );
 }
 
