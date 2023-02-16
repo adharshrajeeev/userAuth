@@ -9,10 +9,10 @@ function HomeScreen() {
   console.log(count)
   }
   return (
-    <div class="container">
+    <div class="container1">
 
 
-    <div class="row container1">
+    <div class="row ">
     <div class="col-sm-6">
       <div class="card homeCard1" >
         <div class="card-body">

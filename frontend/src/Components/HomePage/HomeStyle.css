@@ -1,7 +1,5 @@
 .container1{
     padding-top: 250px;
+    overflow-x: hidden;
 }
 
-.homeCard1{
-    height: 250px;
-}
